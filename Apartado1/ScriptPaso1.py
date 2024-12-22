@@ -2,7 +2,7 @@ import subprocess
 
 # Configuración de la aplicación
 REPO_URL = "https://github.com/CDPS-ETSIT/practica_creativa2.git"
-GROUP_NAME = "07"
+GROUP_NAME = "08"
 APP_PORT = 9080  # Puerto en el que se ejecutará la aplicación
 VENV_PATH = "venv"  # Ruta para el entorno virtual
 

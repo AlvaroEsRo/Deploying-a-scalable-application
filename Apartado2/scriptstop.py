@@ -1,7 +1,7 @@
 import subprocess
 
 # Configuración
-CONTAINER_NAME = "product-page-07"  # Nombre del contenedor
+CONTAINER_NAME = "product-page-08"  # Nombre del contenedor
 
 def stop_container():
     """Detiene el contenedor Docker."""

@@ -3,9 +3,9 @@ import subprocess
 
 # Configuración
 DOCKERFILE_PATH = "./"  # Ruta donde se encuentra el Dockerfile
-IMAGE_NAME = "product-page/07"  # Nombre de la imagen Docker
-CONTAINER_NAME = "product-page-07"  # Nombre del contenedor
-GROUP_NUM = "07"  # Número del grupo
+IMAGE_NAME = "product-page/08"  # Nombre de la imagen Docker
+CONTAINER_NAME = "product-page-08"  # Nombre del contenedor
+GROUP_NUM = "08"  # Número del grupo
 PORT = "9080"  # Puerto para la aplicación
 
 def build_image():
