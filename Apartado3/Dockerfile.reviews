@@ -1,0 +1,22 @@
+# Usar imagen base para WebSphere Liberty
+FROM websphere-liberty:20.0.0.6-full-java8-ibmjava
+
+# Configurar variables de entorno
+ENV SERVICE_VERSION=v1 \
+    ENABLE_RATINGS=true \
+    STAR_COLOR=black \
+    SERVERDIRNAME=reviews
+
+# Clonar el repositorio dentro del contenedor
+WORKDIR /opt/microservices
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/* && \
+    git clone https://github.com/CDPS-ETSIT/practica_creativa2.git .
+
+# Copiar y compilar los archivos necesarios
+COPY practica_creativa2/bookinfo/src/reviews/reviews-wlpcfg .
+
+# Exponer el puerto
+EXPOSE 9080
+
+# Comando por defecto
+CMD ["java", "-jar", "server.jar"]

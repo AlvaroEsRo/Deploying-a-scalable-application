@@ -1,0 +1,25 @@
+# Usar una imagen base NodeJS
+FROM node:12.18.1-slim
+
+# Configurar directorio de trabajo
+WORKDIR /opt/microservices
+
+# Clonar el repositorio directamente dentro del contenedor
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/* && \
+    git clone https://github.com/CDPS-ETSIT/practica_creativa2.git .
+
+# Copiar los archivos necesarios
+COPY practica_creativa2/bookinfo/src/ratings/package.json .
+COPY practica_creativa2/bookinfo/src/ratings/ratings.js .
+
+# Instalar dependencias
+RUN npm install
+
+# Configurar variable de entorno
+ENV SERVICE_VERSION=v1
+
+# Exponer el puerto
+EXPOSE 9080
+
+# Comando por defecto
+CMD ["node", "ratings.js", "9080"]

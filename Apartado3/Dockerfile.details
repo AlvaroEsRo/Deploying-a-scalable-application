@@ -1,0 +1,22 @@
+# Usar la imagen base Ruby
+FROM ruby:2.7.1-slim
+
+# Configurar directorio de trabajo
+WORKDIR /opt/microservices
+
+# Clonar el repositorio directamente en el contenedor
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/* && \
+    git clone https://github.com/CDPS-ETSIT/practica_creativa2.git .
+
+# Copiar el archivo de servicio
+COPY practica_creativa2/bookinfo/src/details/details.rb ./
+
+# Configurar variables de entorno
+ENV SERVICE_VERSION=v1 \
+    ENABLE_EXTERNAL_BOOK_SERVICE=true
+
+# Exponer el puerto
+EXPOSE 9080
+
+# Comando por defecto
+CMD ["ruby", "details.rb", "9080"]
