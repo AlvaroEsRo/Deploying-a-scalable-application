@@ -1,67 +1,30 @@
-services:
-  productpage-08:
-    image: product-page/08
-    container_name: productpage-08
+services: #Define los servicios que serán ejecutados en contenedores
+  g08-details: #Nombre del servicio
+    container_name: g08-details #Nombre del contenedor
+    image: g08/details #Imagen utilizada para este servicio
     ports:
-      - "9080:9080"
-    depends_on:
-      - details-08
-      - reviews-08
-    environment:
-      - GROUP_NUM=08
-    networks:
-      - app_network
-
-  details-08:
-    image: details/08
-    container_name: details-08
+      - "9083:9080" #Mapea el puerto 9080 del contenedor al puerto 9083 del host
+  g08-ratings: #Nombre del servicio
+    container_name: g08-ratings #Nombre del contenedor
+    image: g08/ratings #Imagen utilizada para este servicio
     ports:
-      - "9081:9080"
-    environment:
-      - SERVICE_VERSION=v1
-      - ENABLE_EXTERNAL_BOOK_SERVICE=true
-    networks:
-      - app_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9080/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  reviews-08:
-    image: reviews-v1/08
-    container_name: reviews-08
+      - "9082:9080" #Mapea el puerto 9080 del contenedor al puerto 9082 del host
+  g08-reviews: #Nombre del servicio
+    container_name: g08-reviews #Nombre del contenedor
+    image: g08/reviews #Imagen utilizada para este servicio
     ports:
-      - "9082:9080"
-    environment:
+      - "9081:9080" #Mapea el puerto 9080 del contenedor al puerto 9081 del host
+    environment: #Establece las variables de entorno
       - SERVICE_VERSION=v1
       - ENABLE_RATINGS=false
-    depends_on:
-      - ratings-08
-    networks:
-      - app_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9080/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  ratings-08:
-    image: ratings/08
-    container_name: ratings-08
+      - STAR_COLOR=black
+      - RATINGS_HOSTNAME=g08-ratings
+  g08-productpage: #Nombre del servicio
+    container_name: g08-productpage #Nombre del contenedor
+    image: g08/productpage #Imagen utilizada para este servicio
     ports:
-      - "9083:9080"
-    environment:
-      - SERVICE_VERSION=v1
-      - ENABLE_RATINGS=true
-    networks:
-      - app_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9080/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-networks:
-  app_network:
-    driver: bridge
+      - "9080:9080" #Mapea el puerto 9080 del contenedor al puerto 9080 del host
+    environment: #Establece las variables de entorno
+      - DETAILS_HOSTNAME=g08-details
+      - REVIEWS_HOSTNAME=g08-reviews
+      - RATINGS_HOSTNAME=g08-ratings

@@ -1,25 +1,18 @@
-# Usar una imagen base NodeJS
+#Utiliza la imagen base de Node.js en la versión 12.18.1 (variante slim)
 FROM node:12.18.1-slim
-
-# Configurar directorio de trabajo
-WORKDIR /opt/microservices
-
-# Clonar el repositorio directamente dentro del contenedor
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/* && \
-    git clone https://github.com/CDPS-ETSIT/practica_creativa2.git .
-
-# Copiar los archivos necesarios
-COPY practica_creativa2/bookinfo/src/ratings/package.json .
-COPY practica_creativa2/bookinfo/src/ratings/ratings.js .
-
-# Instalar dependencias
+#Crea un directorio llamado 'microservices' en la ruta '/opt'
+RUN mkdir /opt/microservices/
+#Copia el archivo 'package.json' al directorio '/opt/microservices/'
+COPY practica_creativa2/bookinfo/src/ratings/package.json /opt/microservices/
+#Copia el archivo 'ratings.js' al directorio '/opt/microservices/'
+COPY practica_creativa2/bookinfo/src/ratings/ratings.js /opt/microservices/
+#Establece la variable de entorno 'SERVICE_VERSION' con el valor 'v1'
+ENV SERVICE_VERSION v1
+#Establece el directorio de trabajo como '/opt/microservices/'
+WORKDIR /opt/microservices/
+#Ejecuta el comando 'npm install' para instalar las dependencias del proyecto
 RUN npm install
-
-# Configurar variable de entorno
-ENV SERVICE_VERSION=v1
-
-# Exponer el puerto
+#Expone el puerto 9080 del contenedor
 EXPOSE 9080
-
-# Comando por defecto
+#Define el comando por defecto al iniciar el contenedor
 CMD ["node", "ratings.js", "9080"]

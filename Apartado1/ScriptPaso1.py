@@ -9,13 +9,14 @@ VENV_PATH = "venv"  # Ruta para el entorno virtual
 # Comandos para configurar e iniciar la aplicación
 commands = [
     "sudo apt-get update && sudo apt-get upgrade -y",
-    "sudo apt-get install -y python3 python3-pip python3-venv git",
+    "sudo apt-get install -y python3 python3-pip python3-venv git gcc",  # Instalar gcc junto con otras dependencias
     f"git clone {REPO_URL}",
     # Modificar el archivo requirements.txt antes de instalar dependencias
     '''python3 -c "
 with open('practica_creativa2/bookinfo/src/productpage/requirements.txt', 'r') as file:
     requirements = file.read()
 requirements = requirements.replace('urllib3==1.26.5', 'urllib3<1.25')
+requirements = requirements.replace('requests==2.21.0', 'requests')
 with open('practica_creativa2/bookinfo/src/productpage/requirements.txt', 'w') as file:
     file.write(requirements)
 "''',
