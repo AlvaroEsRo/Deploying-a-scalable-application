@@ -1,0 +1,16 @@
+#Utiliza la imagen base de Ruby versión 2.7.1 en su variante 'slim'
+FROM ruby:2.7.1-slim
+#Actualiza los repositorios del sistem
+RUN apt-get update
+#Crea un directorio llamado 'microservices' en la ruta '/opt'
+RUN mkdir /opt/microservices/
+#Copia el archivo 'details.js' al directorio '/opt/microservices/'
+COPY practica_creativa2/bookinfo/src/details/details.rb /opt/microservices/
+#Establece la variable de entorno 'SERVICE_VERSION' con el valor 'v1'
+ENV SERVICE_VERSION v1
+#Establece la variable de entorno 'ENABLE_EXTERNAL_BOOK_SERVICE' con el valor 'true'
+ENV ENABLE_EXTERNAL_BOOK_SERVICE true
+#Expone el puerto 9080 del contenedor
+EXPOSE 9080
+#Define el comando por defecto al iniciar el contenedor
+CMD ["ruby", "/opt/microservices/details.rb", "9080"]
