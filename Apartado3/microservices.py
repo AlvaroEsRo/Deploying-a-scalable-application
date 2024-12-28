@@ -26,13 +26,18 @@ if __name__ == "__main__":
     version = sys.argv[1]
     cambiarVariablesEntornoCompose(version)
 
+    #Regla firewall abrir puerto 9080 en google cloud 
+    command = f'sudo gcloud compute firewall-rules create http-allow-08 --allow=tcp:9080 --source-ranges="0.0.0.0/0"'
+    #Ejecutar el comando en la línea de comandos
+    os.system(command)
+
     # Compilar el servicio Reviews
     os.chdir('practica_creativa2/bookinfo/src/reviews')
     os.system('docker run --rm -u root -v "$(pwd)":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build')
     os.chdir('../../../../')
 
     # Crear imágenes Docker
-    os.system("docker buildx build --platform linux/amd64 -t g08/reviews practica_creativa2/bookinfo/src/reviews/reviews-wlpcfg")
+    os.system("docker build -t g08/reviews practica_creativa2/bookinfo/src/reviews/reviews-wlpcfg")
     os.system("docker build -t g08/productpage -f Dockerfile.product-page .")
     os.system("docker build -t g08/details -f Dockerfile.details .")
     os.system("docker build -t g08/ratings -f Dockerfile.ratings .")

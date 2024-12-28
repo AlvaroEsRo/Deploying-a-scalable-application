@@ -11,4 +11,4 @@ COPY practica_creativa2/bookinfo/src/productpage/. ./
 #Copia el fichero cambiartitulo al directorio actual
 COPY update_title.py ./
 #Define el comando por defecto al iniciar el contenedor
-CMD ["python3", "cambiartitulo.py"]  
+CMD ["python3", "update_title.py"]  

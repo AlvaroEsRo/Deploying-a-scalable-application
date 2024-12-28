@@ -1,8 +1,4 @@
-import sys 
 import os  
-
-
-os.environ['GRUPO_NUMERO'] = sys.argv[1] #Establece una variable de entorno con el primer argumento del script 
 
 #Modificación de los archivos html para que salga el número del grupo pasado como parámetro
 # Nombre del archivo HTML de productpage
@@ -36,3 +32,6 @@ contenido_modificado_index = contenido.replace('{% block title %}Simple Bookstor
 # Sobrescribir el archivo con el nuevo contenido
 with open(indexhtml, 'w') as archivo:
     archivo.write(contenido_modificado_index)
+
+os.system("pip3 install -r requirements.txt") #Instala las dependencias del proyecto desde requirements.txt
+os.system("python3 productpage.py 9080 ") #Lanzamos la aplicación

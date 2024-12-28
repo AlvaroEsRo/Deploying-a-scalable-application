@@ -1,3 +1,4 @@
+version: "3.3"
 services: #Define los servicios que serán ejecutados en contenedores
   g08-details: #Nombre del servicio
     container_name: g08-details #Nombre del contenedor

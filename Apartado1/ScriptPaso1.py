@@ -1,40 +1,49 @@
-import subprocess
+#Hacemos las importaciones necesarias
+import sys #Este módulo proporciona acceso a algunas variables utilizadas o mantenidas por el intérprete
+import os  #Este módulo permite interactuar con el sistema operativo
 
-# Configuración de la aplicación
-REPO_URL = "https://github.com/CDPS-ETSIT/practica_creativa2.git"
-GROUP_NAME = "08"
-APP_PORT = 9080  # Puerto en el que se ejecutará la aplicación
-VENV_PATH = "venv"  # Ruta para el entorno virtual
 
-# Comandos para configurar e iniciar la aplicación
-commands = [
-    "sudo apt-get update && sudo apt-get upgrade -y",
-    "sudo apt-get install -y python3 python3-pip python3-venv git gcc",  # Instalar gcc junto con otras dependencias
-    f"git clone {REPO_URL}",
-    # Modificar el archivo requirements.txt antes de instalar dependencias
-    '''python3 -c "
-with open('practica_creativa2/bookinfo/src/productpage/requirements.txt', 'r') as file:
+
+os.environ['GRUPO_NUMERO'] = sys.argv[1]  #Establece una variable de entorno con el primer argumento del script que corresponde con el número de grupo de la pareja el 08
+puerto = sys.argv[2]
+
+os.system("git clone https://github.com/CDPS-ETSIT/practica_creativa2.git")  #Clona un repositorio de GitHub
+os.system("sudo apt update") # Actualiza los paquetes de sistema
+os.system("sudo apt -y install python3") # Instala Python 3
+os.system("sudo apt -y install pip") # Instala pip (administrador de paquetes de Python)
+
+#Lee el archivo requirements.txt y modifica una dependencia específica ya que sino daba una incompatibilidad al ejecutarlo
+with open("practica_creativa2/bookinfo/src/productpage/requirements.txt","r") as file: 
     requirements = file.read()
-requirements = requirements.replace('urllib3==1.26.5', 'urllib3<1.25')
-requirements = requirements.replace('requests==2.21.0', 'requests')
-with open('practica_creativa2/bookinfo/src/productpage/requirements.txt', 'w') as file:
+
+with open("practica_creativa2/bookinfo/src/productpage/requirements.txt","w") as file:
+    requirements = requirements.replace("urllib3==1.26.5", "urllib3<1.25")
     file.write(requirements)
-"''',
-    f"cd practica_creativa2/bookinfo/src/productpage && python3 -m venv {VENV_PATH}",
-    f"source practica_creativa2/bookinfo/src/productpage/{VENV_PATH}/bin/activate && pip install -r practica_creativa2/bookinfo/src/productpage/requirements.txt",
-    f"source practica_creativa2/bookinfo/src/productpage/{VENV_PATH}/bin/activate && export GRUP_NUM={GROUP_NAME} && nohup python3 practica_creativa2/bookinfo/src/productpage/productpage_monolith.py {APP_PORT} > app.log 2>&1 &",
-]
+#Instala las dependencias del proyecto desde requirements.txt
+os.system("pip3 install -r 'practica_creativa2/bookinfo/src/productpage/requirements.txt'")
 
-def run_commands(commands):
-    """Ejecuta una lista de comandos en la VM local."""
-    for command in commands:
-        print(f"Ejecutando: {command}")
-        try:
-            subprocess.run(command, shell=True, check=True, executable="/bin/bash")
-        except subprocess.CalledProcessError as e:
-            print(f"Error al ejecutar el comando: {e}")
-            break
+#Modificación de los archivos html para que salga el número del grupo pasado como parámetro
 
-if __name__ == "__main__":
-    run_commands(commands)
-    print(f"Despliegue completado. Accede a la aplicación en el puerto {APP_PORT}.")
+#Nombre del archivo HTML de productpage
+productpagehtml = "practica_creativa2/bookinfo/src/productpage/templates/productpage.html"
+
+#Abrir el archivo HTML para lectura y escritura
+with open(productpagehtml, 'r') as archivo:
+    contenido = archivo.read()
+
+#Modificar el contenido reemplazando el título
+nuevo_titulo = "{% block title %}Simple Bookstore App" + os.environ['GRUPO_NUMERO'] + "{% endblock %}"
+contenido_modificado = contenido.replace('{% block title %}Simple Bookstore App{% endblock %}', nuevo_titulo)
+
+#Sobrescribir el archivo con el nuevo contenido
+with open(productpagehtml, 'w') as archivo:
+    archivo.write(contenido_modificado)
+
+rule_name = "http-allow-" + sys.argv[2]  # Nombre de la regla
+#Comando para crear la regla de firewall con gcloud
+command = f'sudo gcloud compute firewall-rules create {rule_name} --allow=tcp:{puerto} --source-ranges="0.0.0.0/0"'
+#Ejecutar el comando en la línea de comandos
+os.system(command)
+
+#Lanza la aplicación utilizando el archivo productpage_monolith.pyo y el puerto 9080
+os.system(f"python3 practica_creativa2/bookinfo/src/productpage/productpage_monolith.py {puerto}")
