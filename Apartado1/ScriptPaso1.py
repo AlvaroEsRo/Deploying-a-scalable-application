@@ -1,8 +1,5 @@
-#Hacemos las importaciones necesarias
 import sys #Este módulo proporciona acceso a algunas variables utilizadas o mantenidas por el intérprete
 import os  #Este módulo permite interactuar con el sistema operativo
-
-
 
 os.environ['GRUPO_NUMERO'] = sys.argv[1]  #Establece una variable de entorno con el primer argumento del script que corresponde con el número de grupo de la pareja el 08
 puerto = sys.argv[2]
