@@ -1,7 +1,7 @@
 import sys
 import os
 
-def cambiarVariablesEntornoCompose(version):
+def versionesReviews(version):
     with open("docker-compose.yml", "r") as f:
         lines = f.readlines()
 
@@ -24,7 +24,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     version = sys.argv[1]
-    cambiarVariablesEntornoCompose(version)
+    versionesReviews(version)
 
     #Regla firewall abrir puerto 9080 en google cloud 
     command = f'sudo gcloud compute firewall-rules create http-allow-08 --allow=tcp:9080 --source-ranges="0.0.0.0/0"'
