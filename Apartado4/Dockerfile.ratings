@@ -1,18 +1,17 @@
-#Utiliza la imagen base de Node.js en la versión 12.18.1 (variante slim)
 FROM node:12.18.1-slim
-#Crea un directorio llamado 'microservices' en la ruta '/opt'
+
 RUN mkdir /opt/microservices/
-#Copia el archivo 'package.json' al directorio '/opt/microservices/'
+
 COPY practica_creativa2/bookinfo/src/ratings/package.json /opt/microservices/
-#Copia el archivo 'ratings.js' al directorio '/opt/microservices/'
+
 COPY practica_creativa2/bookinfo/src/ratings/ratings.js /opt/microservices/
-#Establece la variable de entorno 'SERVICE_VERSION' con el valor 'v1'
+
 ENV SERVICE_VERSION v1
-#Establece el directorio de trabajo como '/opt/microservices/'
+
 WORKDIR /opt/microservices/
-#Ejecuta el comando 'npm install' para instalar las dependencias del proyecto
+
 RUN npm install
-#Expone el puerto 9080 del contenedor
+
 EXPOSE 9080
-#Define el comando por defecto al iniciar el contenedor
+
 CMD ["node", "ratings.js", "9080"]

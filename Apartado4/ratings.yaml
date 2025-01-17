@@ -35,7 +35,7 @@ spec:
     spec: 
       containers: 
       - name: ratings 
-        image: alvaroesro/ratings 
+        image: rami9go/ratings 
         imagePullPolicy: IfNotPresent 
         ports: 
         - containerPort: 9080
