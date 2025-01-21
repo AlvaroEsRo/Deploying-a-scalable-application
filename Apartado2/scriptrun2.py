@@ -11,7 +11,7 @@ PORT = "9080"  # Puerto para la aplicación
 def build_image():
     """Construye la imagen Docker."""
     print(f"Construyendo la imagen {IMAGE_NAME}...")
-    result = subprocess.run(["docker", "build", "-t", IMAGE_NAME, DOCKERFILE_PATH], capture_output=True, text=True)
+    result = subprocess.run(["docker", "build", "-t", IMAGE_NAME,"-f", DOCKERFILE_PATH], capture_output=True, text=True)
     if result.returncode == 0:
         print("Imagen construida exitosamente.")
     else:
