@@ -11,15 +11,23 @@ def execute_command(command):
         exit(1)
 
 def main():
+    # Solicitar la versión de reviews
+    print("Available versions: v1, v2, v3")
+    version = input("Enter the version of reviews to deploy: ").strip()
+
+    # Validar la entrada
+    if version not in ["v1", "v2", "v3"]:
+        print("Invalid version. Please choose v1, v2, or v3.")
+        exit(1)
+
+    # Comandos generales
     commands = [
         "kubectl apply -f productpage.yaml",
         "kubectl apply -f details.yaml",
         "kubectl apply -f ratings.yaml",
         "kubectl apply -f reviews.yaml",
-        "kubectl apply -f reviews-v1.yaml",
-        "kubectl apply -f reviews-v2.yaml",
-        "kubectl apply -f reviews-v3.yaml",
-        "kubectl expose deployment productpage-v1 --type=NodePort --port=9080"
+        f"kubectl apply -f reviews-{version}.yaml",
+        "kubectl expose deployment productpage-v1 --type=LoadBalancer --port=9080"
     ]
 
     for command in commands:
