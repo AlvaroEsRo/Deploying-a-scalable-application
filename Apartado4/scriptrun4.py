@@ -27,7 +27,7 @@ def main():
         "kubectl apply -f ratings.yaml",
         "kubectl apply -f reviews.yaml",
         f"kubectl apply -f reviews-{version}.yaml",
-        "kubectl expose deployment productpage-v1 --type=LoadBalancer --port=9080"
+        "kubectl expose deployment productpage-v1 --type=NodePort --port=9080"
     ]
 
     for command in commands:
