@@ -35,7 +35,7 @@ spec:
     spec: 
       containers: 
       - name: productpage 
-        image: alvaroesro/practica_creativa_2 
+        image: elenaldc/practica_creativa_2 
         imagePullPolicy: IfNotPresent 
         ports: 
         - containerPort: 9080
