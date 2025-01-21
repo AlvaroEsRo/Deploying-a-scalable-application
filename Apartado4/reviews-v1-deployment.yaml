@@ -19,7 +19,7 @@ spec:
     spec: 
       containers: 
       - name: reviews 
-        image: rami9go/reviews 
+        image: alvaroesro/reviews 
         imagePullPolicy: IfNotPresent 
         env: 
         - name: LOG_DIR

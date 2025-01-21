@@ -35,7 +35,7 @@ spec:
     spec: 
       containers: 
       - name: details 
-        image: rami9go/details 
+        image: alvaroesro/details 
         imagePullPolicy: IfNotPresent 
         ports: 
         - containerPort: 9080
